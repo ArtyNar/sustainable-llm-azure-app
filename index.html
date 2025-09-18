@@ -16,8 +16,8 @@
   <div id="response" class="border rounded p-3 mt-3 bg-body-secondary"></div>
 
   <script>
-    (async function handleClick() {
-        const { text } = await( await fetch(`/api/test`)).json();
+    (async function() {
+        const { text } = await( await fetch(`/api/send`)).json();
         document.querySelector('#response').textContent = text;
     }());
     </script>
