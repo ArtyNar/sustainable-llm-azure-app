@@ -21,7 +21,7 @@
 
   <script>
     (async function() {
-        const { text } = await( await fetch(`/api/send_llm`)).json();
+        const { text } = await( await fetch(`/api/send`)).json();
         document.querySelector('#response2').textContent = "Todo Todo";
     }());
     </script>

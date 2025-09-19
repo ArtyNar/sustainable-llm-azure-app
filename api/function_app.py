@@ -1,17 +1,13 @@
 import azure.functions as func
-from azurefunctions.extensions.http.fastapi import Request, StreamingResponse
+import logging
 
+app = func.FunctionApp()
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
-
-def generate_sensor_data():
-    """Generate real-time sensor data."""
-    for i in range(10):
-        # Simulate temperature and humidity readings
-        temperature = 20 + i
-        humidity = 50 + i
-        yield f"data: {{'temperature': {temperature}, 'humidity': {humidity}}}\n\n"
-
-@app.route(route="send_llm", method=[func.HttpMethod.GET])
-async def send_llm(req: Request) -> StreamingResponse:
-    return StreamingResponse(generate_sensor_data(), media_type="text/event-stream")
+@app.function_name(name="HttpTrigger1")
+@app.route(route="send", auth_level=func.AuthLevel.ANONYMOUS)
+def test_function(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+    return func.HttpResponse(
+        "This HTTP triggered function executed successfully.",
+        status_code=200
+        )

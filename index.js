@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const responseDiv = document.querySelector('#response');
 
   button.addEventListener('click', async () => {
-    const evtSource = new EventSource('/api/send_llm');
+    const evtSource = new EventSource('/api/send');
     evtSource.onmessage = (event) => {
         responseDiv.textContent += event.data + "\n";
     };
