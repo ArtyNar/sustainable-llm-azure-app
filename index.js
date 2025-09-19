@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const responseDiv = document.querySelector('#response');
 
   button.addEventListener('click', async () => {
-    try {
-      const res = await fetch('/api/send');
-      const data = await res;
-      responseDiv.textContent = data;
-    } catch (err) {
-      responseDiv.textContent = 'Error: ' + err.message;
-    }
+    const evtSource = new EventSource('/api/send_llm');
+    evtSource.onmessage = (event) => {
+        responseDiv.textContent += event.data + "\n";
+    };
+    evtSource.onerror = (err) => {
+        responseDiv.textContent = 'Error: ' + err;
+        evtSource.close();
+    };
   });
 });
