@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchCarbonIntesnityData() {
-  const { text } = await (await fetch('/api/send')).json();
-  document.querySelector('#response2').textContent = "Current carbon intensity goes here" + text;
+  const res = await fetch('/api/send');
+  const data = await res.json(); 
+  document.querySelector('#response2').textContent = "Current carbon intensity goes here: " + data.message;
 }
 
 async function handleButtonClick() {
