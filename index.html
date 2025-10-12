@@ -19,12 +19,5 @@
 
   <script src="index.js"></script>
 
-  <script>
-    (async function() {
-        const { text } = await( await fetch(`/api/send`)).json();
-        document.querySelector('#response2').textContent = "Todo Todo";
-    }());
-    </script>
-
 </body>
 </html>

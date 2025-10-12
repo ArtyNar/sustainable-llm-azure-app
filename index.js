@@ -1,14 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const button = document.querySelector('#send');
-  const responseDiv = document.querySelector('#response');
-
-  button.addEventListener('click', async () => {
-    try {
-      const res = await fetch('/api/send');
-      const data = await res.json(); 
-      responseDiv.textContent = data.message;
-    } catch (err) {
-      responseDiv.textContent = 'Error: ' + err.message;
-    }
-  });
+  // Auto-fetch on load
+  fetchCarbonIntesnityData();
+  
+  // Button click handler
+  document.querySelector('#send').addEventListener('click', handleButtonClick);
 });
+
+async function fetchCarbonIntesnityData() {
+  const { text } = await (await fetch('/api/send')).json();
+  document.querySelector('#response2').textContent = "Current carbon intensity goes here" + text;
+}
+
+async function handleButtonClick() {
+  try {
+    const res = await fetch('/api/send');
+    const data = await res.json(); 
+    document.querySelector('#response').textContent = data.message;
+  } catch (err) {
+    document.querySelector('#response').textContent = 'Error: ' + err.message;
+  }
+}
