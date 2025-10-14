@@ -10,7 +10,7 @@ async function fetchCarbonIntesnityData() {
   try {
     const res = await fetch('/api/carbon-intensity');
     const data = await res.json(); 
-    document.querySelector('#response2').textContent = "Current carbon intensity goes here: " + data.carbonIntensity + " gCO2eq/kWh\nGrid: " + data.zone_name;
+    document.querySelector('#response2').textContent = "Current carbon intensity goes here: " + data.carbonIntensity + " gCO2eq/kWh<br>Grid: " + data.zone_name;
   } catch (err) {
       document.querySelector('#response2').textContent = 'Error: ' + err.message;
   }
