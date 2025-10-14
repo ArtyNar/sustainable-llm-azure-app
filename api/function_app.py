@@ -27,7 +27,6 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
 def get_CI(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Fetching carbon intensity data.')
 
-
     try:
         EM_KEY = os.environ.get("ELECTRICITY_MAPS_API_KEY")
 
@@ -44,12 +43,14 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
         response.raise_for_status()
 
         cur_CI = response.json()["carbonIntensity"]
-
+        cur_zone = response.json()["zone"]
+        timestamp = response.json()["datetime"]
+        
         payload = {
-            "carbonIntensity": cur_CI,  # More descriptive key
-            "zone": "US-MIDA-PJM",
+            "carbonIntensity": cur_CI,
+            "zone": cur_zone,
             "zone_name": "PJM Interconnection",
-            "timestamp": response.json().get("datetime"),  # Useful context
+            "timestamp": timestamp,
             "status": "ok"
         }
 
