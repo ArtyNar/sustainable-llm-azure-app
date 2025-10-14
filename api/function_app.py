@@ -38,7 +38,7 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
                 mimetype="application/json"
             )
 
-        url = "https://api.electricitymaps.com/v3/carbon-intensity/latest?zone=US-NW-PACE"
+        url = "https://api.electricitymaps.com/v3/carbon-intensity/latest?zone=US-MIDA-PJM"
         headers={"auth-token": EM_KEY}
         response = requests.get(url,headers=headers)
         response.raise_for_status()
@@ -47,7 +47,8 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
 
         payload = {
             "carbonIntensity": cur_CI,  # More descriptive key
-            "zone": "US-NW-PACE",
+            "zone": "US-MIDA-PJM",
+            "zone_name": "PJM Interconnection",
             "timestamp": response.json().get("datetime"),  # Useful context
             "status": "ok"
         }
