@@ -7,9 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchCarbonIntesnityData() {
-  const res = await fetch('/api/carbon-intensity');
-  const data = await res.json(); 
-  document.querySelector('#response2').textContent = "Current carbon intensity goes here: " + data.message;
+  try {
+    const res = await fetch('/api/carbon-intensity');
+    const data = await res.json(); 
+    document.querySelector('#response2').textContent = "Current carbon intensity goes here: " + data.message;
+  } catch (err) {
+      document.querySelector('#response').textContent = 'Error: ' + err.message;
+  }
 }
 
 async function handleButtonClick() {
