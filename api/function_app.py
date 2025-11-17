@@ -22,8 +22,9 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     
     if not prompt_text:
         return func.HttpResponse(
-            "Please provide a prompt",
-            status_code=400
+            body=json.dumps({"error": "Please provide a prompt"}),
+            status_code=400,
+            mimetype="application/json"
         )
     
     logging.info(f'Received prompt: {prompt_text}')

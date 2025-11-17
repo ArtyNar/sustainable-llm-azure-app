@@ -10,12 +10,38 @@
   <main>
     <h1 class="mb-4 text-center">Carbon Aware LLM</h1>
     <textarea id="prompt" class="form-control mb-3" rows="5" placeholder="Type your question..."></textarea>
-    <button id="send" class="btn btn-primary">Send</button>
     
+    <div class="d-flex gap-2">
+      <button id="send" class="btn btn-primary">Send</button>
+    
+      <div class="modelDropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="modelDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Model
+      </button>
+      <div class="dropdown-menu" aria-labelledby="modelDropdownButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+      </div>
+
+      <div class="scheduleDropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="scheduleDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Schedule
+      </button>
+      <div class="dropdown-menu" aria-labelledby="scheduleDropdownButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+      </div>
+    </div>
+
     <div id="response" class="border rounded p-3 mt-3 bg-body-secondary"></div>
     <div id="response2" class="border rounded p-3 mt-3 bg-body-secondary"></div>
 
     <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   </main>
 </body>
 </html>
