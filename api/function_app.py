@@ -33,17 +33,17 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     
     logging.info(f'Received prompt: {prompt_text}')
     
-    AZ_OPENAI_ENDPOINT = os.environ.get("AZ_OPENAI_ENDPOINT")
-    AZ_OPENAI_KEY = os.environ.get("AZ_OPENAI_KEY")
+    AZURE_OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
+    AZURE_OPENAI_KEY = os.environ.get("AZURE_OPENAI_KEY")
 
-    if not AZ_OPENAI_ENDPOINT:
+    if not AZURE_OPENAI_ENDPOINT:
         return func.HttpResponse(
             body=json.dumps({"error": "AZ_OPENAI_ENDPOINT not configured"}),
             status_code=500,
             mimetype="application/json"
         )
     
-    if not AZ_OPENAI_KEY:
+    if not AZURE_OPENAI_KEY:
         return func.HttpResponse(
             body=json.dumps({"error": "AZ_OPENAI_KEY not configured"}),
             status_code=500,
@@ -56,8 +56,8 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     try:
         client = AzureOpenAI(
             api_version=api_version,
-            azure_endpoint=AZ_OPENAI_ENDPOINT,
-            api_key=AZ_OPENAI_KEY,
+            azure_endpoint=AZURE_OPENAI_ENDPOINT,
+            api_key=AZURE_OPENAI_KEY,
         )
     except Exception as e:
         logging.error(f"JSON parsing error: {e}")

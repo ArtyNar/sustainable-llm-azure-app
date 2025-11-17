@@ -11,31 +11,24 @@
     <h1 class="mb-4 text-center">Carbon Aware LLM</h1>
     <textarea id="prompt" class="form-control mb-3" rows="5" placeholder="Type your question..."></textarea>
     
-    <div class="d-flex gap-2">
-      <button id="send" class="btn btn-primary">Send</button>
-    
-      <div class="modelDropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="modelDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Model
-      </button>
-      <div class="dropdown-menu" aria-labelledby="modelDropdownButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-      </div>
+    <div class="mb-3">
+      <div class="d-flex gap-2">    
+        <select class="form-select bg-secondary text-white" aria-label="Model select" style="width: 200px;">
+          <option selected>Model</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
 
-      <div class="scheduleDropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="scheduleDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Schedule
-      </button>
-      <div class="dropdown-menu" aria-labelledby="scheduleDropdownButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
+        <select class="form-select bg-secondary text-white" aria-label="Schedule select" style="width: 200px;">
+          <option selected>Schedule</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
       </div>
     </div>
+    <button id="send" class="btn btn-primary">Send</button>
 
     <div id="response" class="border rounded p-3 mt-3 bg-body-secondary"></div>
     <div id="response2" class="border rounded p-3 mt-3 bg-body-secondary"></div>
