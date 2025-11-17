@@ -34,7 +34,8 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     AZ_OAI_KEY = os.environ.get("AZ_OAI_KEY")
 
     api_version = "2024-12-01-preview"
-    
+    deployment = "gpt-4o-mini"
+
     client = AzureOpenAI(
         api_version=api_version,
         azure_endpoint=AZ_OAI_ENDPOINT,
