@@ -30,8 +30,22 @@ async function handleButtonClick() {
       })
     });
     
-    const data = await res.json(); 
+    let data;
+
+    try {
+      data = await res.json(); // try to parse JSON
+    } catch (e) {
+      data = { error: "Invalid JSON from server" };
+    }
+
+    if (!res.ok) {
+      // handle non-200 responses
+      document.querySelector('#response').textContent = data.error || "Request failed";
+      return;
+    }
+
     document.querySelector('#response').textContent = data.message;
+
   } catch (err) {
     document.querySelector('#response').textContent = 'Error: ' + err.message;
   }
