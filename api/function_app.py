@@ -72,11 +72,11 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant.",
+                    "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. Also, you only have 100 output tokens allowed, so make it short.",
                 },
                 {
                     "role": "user",
-                    "content": "I am going to Paris, what should I see?",
+                    "content": prompt_text,
                 }
             ],
             max_tokens=100,
