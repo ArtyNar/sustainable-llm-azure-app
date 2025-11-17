@@ -35,6 +35,9 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     
     AZ_OAI_ENDPOINT = os.environ.get("AZ_OAI_ENDPOINT")
     AZ_OAI_KEY = os.environ.get("AZ_OAI_KEY")
+    
+    logging.info(f"AZ_OAI_ENDPOINT={AZ_OAI_ENDPOINT}")
+    logging.info(f"AZ_OAI_KEY={'set' if AZ_OAI_KEY else 'missing'}")
 
     api_version = "2024-12-01-preview"
     deployment = "gpt-4o-mini"
