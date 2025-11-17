@@ -67,7 +67,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
 
 
     payload = {
-        "message": f"You asked: {prompt_text}\n Response: {response_text}",
+        "message": f"You asked: {prompt_text}\n Response: {prompt_text}",
         "status": "ok"
     }
     
