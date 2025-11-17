@@ -33,40 +33,40 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     
     logging.info(f'Received prompt: {prompt_text}')
     
-    AZ_OAI_ENDPOINT = os.environ.get("AZ_OAI_ENDPOINT")
-    AZ_OAI_KEY = os.environ.get("AZ_OAI_KEY")
+    AZ_OPENAI_ENDPOINT = os.environ.get("AZ_OPENAI_ENDPOINT")
+    AZ_OPENAI_KEY = os.environ.get("AZ_OPENAI_KEY")
 
     api_version = "2024-12-01-preview"
     deployment = "gpt-4o-mini"
 
-    # client = AzureOpenAI(
-    #     api_version=api_version,
-    #     azure_endpoint=AZ_OAI_ENDPOINT,
-    #     api_key=AZ_OAI_KEY,
-    # )
+    client = AzureOpenAI(
+        api_version=api_version,
+        azure_endpoint=AZ_OPENAI_ENDPOINT,
+        api_key=AZ_OPENAI_KEY,
+    )
 
-    # response = client.chat.completions.create(
-    #     messages=[
-    #         {
-    #             "role": "system",
-    #             "content": "You are a helpful assistant.",
-    #         },
-    #         {
-    #             "role": "user",
-    #             "content": "I am going to Paris, what should I see?",
-    #         }
-    #     ],
-    #     max_tokens=100,
-    #     temperature=1.0,
-    #     top_p=1.0,
-    #     model=deployment
-    # )
+    response = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant.",
+            },
+            {
+                "role": "user",
+                "content": "I am going to Paris, what should I see?",
+            }
+        ],
+        max_tokens=100,
+        temperature=1.0,
+        top_p=1.0,
+        model=deployment
+    )
 
-    # response_text = response.choices[0].message.content
+    response_text = response.choices[0].message.content
 
 
     payload = {
-        "message": f"You asked: {prompt_text}\n Response: {AZ_OAI_ENDPOINT}",
+        "message": f"You asked: {prompt_text}\n Response: {AZ_OPENAI_ENDPOINT}",
         "status": "ok"
     }
     
