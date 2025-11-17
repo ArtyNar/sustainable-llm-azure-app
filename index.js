@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#send').addEventListener('click', handleSend);
 
   // Schedule button click handler
-  document.querySelector('#schedule').addEventListener('click', handleSend);
+  document.querySelector('#schedule').addEventListener('click', handleSchedule);
 });
 
 async function fetchCarbonIntesnityData() {
