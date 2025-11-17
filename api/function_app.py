@@ -35,42 +35,38 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     
     AZ_OAI_ENDPOINT = os.environ.get("AZ_OAI_ENDPOINT")
     AZ_OAI_KEY = os.environ.get("AZ_OAI_KEY")
-    
-    logging.info(f"AZ_OAI_ENDPOINT={AZ_OAI_ENDPOINT}")
-    logging.info(f"AZ_OAI_KEY={'set' if AZ_OAI_KEY else 'missing'}")
 
     api_version = "2024-12-01-preview"
     deployment = "gpt-4o-mini"
 
-    client = AzureOpenAI(
-        api_version=api_version,
-        azure_endpoint=AZ_OAI_ENDPOINT,
-        api_key=AZ_OAI_KEY,
-    )
+    # client = AzureOpenAI(
+    #     api_version=api_version,
+    #     azure_endpoint=AZ_OAI_ENDPOINT,
+    #     api_key=AZ_OAI_KEY,
+    # )
 
-    try:
-        response = client.chat.completions.create(
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt_text},
-            ],
-            max_tokens=100,
-            model="gpt-4o-mini"
-        )
-    except Exception as e:
-        logging.error(f"OpenAI API error: {e}")
-        return func.HttpResponse(
-            json.dumps({"error": "OpenAI API call failed"}),
-            status_code=500,
-            mimetype="application/json"
-        )
+    # response = client.chat.completions.create(
+    #     messages=[
+    #         {
+    #             "role": "system",
+    #             "content": "You are a helpful assistant.",
+    #         },
+    #         {
+    #             "role": "user",
+    #             "content": "I am going to Paris, what should I see?",
+    #         }
+    #     ],
+    #     max_tokens=100,
+    #     temperature=1.0,
+    #     top_p=1.0,
+    #     model=deployment
+    # )
 
-
-    response_text = response.choices[0].message.content
+    # response_text = response.choices[0].message.content
 
 
     payload = {
-        "message": f"You asked: {prompt_text}\n Response: {prompt_text}",
+        "message": f"You asked: {prompt_text}\n Response: {AZ_OAI_ENDPOINT}",
         "status": "ok"
     }
     
