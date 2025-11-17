@@ -45,22 +45,23 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         api_key=AZ_OAI_KEY,
     )
 
-    response = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "I am going to Paris, what should I see?",
-            }
-        ],
-        max_tokens=100,
-        temperature=1.0,
-        top_p=1.0,
-        model=deployment
-    )
+    try:
+        response = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt_text},
+            ],
+            max_tokens=100,
+            model="gpt-4o-mini"
+        )
+    except Exception as e:
+        logging.error(f"OpenAI API error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "OpenAI API call failed"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+
 
     response_text = response.choices[0].message.content
 
