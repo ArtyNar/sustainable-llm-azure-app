@@ -18,7 +18,18 @@ async function fetchCarbonIntesnityData() {
 
 async function handleButtonClick() {
   try {
-    const res = await fetch('/api/send');
+    const promptText = document.getElementById('prompt').value;
+    
+    const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: promptText
+      })
+    });
+    
     const data = await res.json(); 
     document.querySelector('#response').textContent = data.message;
   } catch (err) {

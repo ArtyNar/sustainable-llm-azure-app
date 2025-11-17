@@ -10,12 +10,29 @@ app = func.FunctionApp()
 @app.route(route="send", auth_level=func.AuthLevel.ANONYMOUS)
 def test_function(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
-
+    
+    try:
+        req_body = req.get_json()
+        prompt_text = req_body.get('prompt')
+    except ValueError:
+        return func.HttpResponse(
+            "Invalid JSON",
+            status_code=400
+        )
+    
+    if not prompt_text:
+        return func.HttpResponse(
+            "Please provide a prompt",
+            status_code=400
+        )
+    
+    logging.info(f'Received prompt: {prompt_text}')
+    
     payload = {
-        "message": "This HTTP triggered function executed successfully.",
+        "message": f"You asked: {prompt_text}",
         "status": "ok"
     }
-
+    
     return func.HttpResponse(
         body=json.dumps(payload),
         status_code=200,
