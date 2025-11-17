@@ -2,8 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auto-fetch on load
   fetchCarbonIntesnityData();
   
-  // Button click handler
-  document.querySelector('#send').addEventListener('click', handleButtonClick);
+  // Send button click handler
+  document.querySelector('#send').addEventListener('click', handleSend);
+
+  // Schedule button click handler
+  document.querySelector('#schedule').addEventListener('click', handleSend);
 });
 
 async function fetchCarbonIntesnityData() {
@@ -16,11 +19,46 @@ async function fetchCarbonIntesnityData() {
   }
 }
 
-async function handleButtonClick() {
+async function handleSend() {
   try {
     const promptText = document.getElementById('prompt').value;
     
     const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: promptText
+      })
+    });
+    
+    let data;
+
+    try {
+      data = await res.json(); // try to parse JSON
+    } catch (e) {
+      data = { error: "Invalid JSON from server" };
+    }
+
+    if (!res.ok) {
+      // handle non-200 responses
+      document.querySelector('#response').innerHTML = data.error || "Request failed";
+      return;
+    }
+
+    document.querySelector('#response').innerHTML = data.message;
+
+  } catch (err) {
+    document.querySelector('#response').innerHTML = 'Error: ' + err.message;
+  }
+}
+
+async function handleSchedule() {
+  try {
+    const promptText = document.getElementById('prompt').value;
+    
+    const res = await fetch('/api/schedule', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

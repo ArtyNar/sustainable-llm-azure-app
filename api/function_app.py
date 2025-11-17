@@ -96,7 +96,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
 
 
     payload = {
-        "message": f"You asked: {prompt_text}\n Response: {response_text}",
+        "message": f"{response_text}",
         "status": "ok"
     }
     
@@ -152,3 +152,19 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
             status_code=500,
             mimetype="application/json"
         )
+    
+@app.function_name(name="SchedulePrompt")
+@app.route(route="schedule", auth_level=func.AuthLevel.ANONYMOUS)
+def get_CI(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Attempting to schedule a prompt.')
+
+    payload = {
+        "message": f"Scheduled successfully.",
+        "status": "ok"
+    }
+
+    return func.HttpResponse(
+        body=json.dumps(payload),
+        status_code=200,
+        mimetype="application/json"
+    )
