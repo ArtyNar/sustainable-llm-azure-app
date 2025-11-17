@@ -15,11 +15,14 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     try:
         req_body = req.get_json()
         prompt_text = req_body.get('prompt')
-    except ValueError:
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
         return func.HttpResponse(
-            "Invalid JSON",
-            status_code=400
+            json.dumps({"error": "Invalid JSON body"}),
+            status_code=400,
+            mimetype="application/json"
         )
+
     
     if not prompt_text:
         return func.HttpResponse(
