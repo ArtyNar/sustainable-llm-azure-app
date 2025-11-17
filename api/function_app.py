@@ -39,29 +39,45 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     api_version = "2024-12-01-preview"
     deployment = "gpt-4o-mini"
 
-    client = AzureOpenAI(
-        api_version=api_version,
-        azure_endpoint=AZ_OPENAI_ENDPOINT,
-        api_key=AZ_OPENAI_KEY,
-    )
-
-    response = client.chat.completions.create(
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a helpful assistant.",
-            },
-            {
-                "role": "user",
-                "content": "I am going to Paris, what should I see?",
-            }
-        ],
-        max_tokens=100,
-        temperature=1.0,
-        top_p=1.0,
-        model=deployment
-    )
-
+    try:
+        client = AzureOpenAI(
+            api_version=api_version,
+            azure_endpoint=AZ_OPENAI_ENDPOINT,
+            api_key=AZ_OPENAI_KEY,
+        )
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "Failed to connect to Azure OpenAI"}),
+            status_code=400,
+            mimetype="application/json"
+        )
+    
+    try:   
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant.",
+                },
+                {
+                    "role": "user",
+                    "content": "I am going to Paris, what should I see?",
+                }
+            ],
+            max_tokens=100,
+            temperature=1.0,
+            top_p=1.0,
+            model=deployment
+        )
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "Failed to get AZAI response"}),
+            status_code=400,
+            mimetype="application/json"
+        )
+    
     response_text = response.choices[0].message.content
 
 
