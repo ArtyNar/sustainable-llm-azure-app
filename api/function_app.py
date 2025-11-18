@@ -194,3 +194,25 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         status_code=200,
         mimetype="application/json"
     )
+
+@app.function_name(name="GetPrompts")
+@app.route(route="prompts", methods=["GET"])
+@app.table_input(arg_name="prompts",
+                 connection="TABLE_PROMPT_STORAGE",
+                 table_name="prompttable")
+def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
+    prompts_list = []
+    
+    for prompt in prompts:
+        prompts_list.append({
+            "id": prompt['RowKey'],
+            "prompt": prompt['Prompt'],
+            "carbonIntensity": prompt['CarbonIntensity'],
+            "status": prompt['PartitionKey']  # "pending" or "completed"
+        })
+    
+    return func.HttpResponse(
+        body=json.dumps(prompts_list),
+        status_code=200,
+        mimetype="application/json"
+    )

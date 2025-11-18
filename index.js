@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Auto-fetch on load
   fetchCarbonIntesnityData();
-  
+  fetchPrompts();
+
   // Send button click handler
   document.querySelector('#send').addEventListener('click', handleSend);
 
@@ -19,6 +20,23 @@ async function fetchCarbonIntesnityData() {
   }
 }
 
+async function fetchPrompts() {
+  try {
+    const res = await fetch('/api/prompts');
+    const data = await res.json(); 
+    
+    const html = data.map(item => 
+      `<li class="list-group-item">
+        <strong>${item.prompt}</strong><br>
+        <small>Status: ${item.timestamp} | Carbon: ${item.carbonIntensity}</small>
+      </li>`
+    ).join('');
+    
+    document.querySelector('#response3').innerHTML = html;
+  } catch (err) {
+    document.querySelector('#response3').textContent = 'Error: ' + err.message;
+  }
+}
 async function handleSend() {
   try {
     const promptText = document.getElementById('prompt').value;
