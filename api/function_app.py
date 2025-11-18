@@ -201,40 +201,28 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
                  connection="TABLE_PROMPT_STORAGE",
                  table_name="prompttable")
 def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
-    prompts_list = []
-
-    if not prompts:
+    try:
+        # Parse json string 
+        prompts_data = json.loads(prompts)
+        
+        prompts_list = []
+        for prompt in prompts_data:
+            prompts_list.append({
+                "id": prompt['RowKey'],
+                "prompt": prompt['Prompt'],
+                "carbonIntensity": prompt['CarbonIntensity'],
+                "status": prompt['PartitionKey']
+            })
+        
         return func.HttpResponse(
-            body=json.dumps([{
-                    "id": "oops",
-                    "prompt": "oops",
-                    "carbonIntensity": "oops",
-                    "status": "oops"  # "pending" or "completed"
-                }]),            
-                status_code=500,
-                mimetype="application/json"
-            )
-    
-    return func.HttpResponse(
-        body=json.dumps([{
-                "id": prompts,
-                "prompt": "oops",
-                "carbonIntensity": "oops",
-                "status": "oops"  # "pending" or "completed"
-            }]),            
+            body=json.dumps(prompts_list),
             status_code=200,
             mimetype="application/json"
         )
-        # for prompt in prompts:
-        #     prompts_list.append({
-        #         "id": prompt['RowKey'],
-        #         "prompt": prompt['Prompt'],
-        #         "carbonIntensity": prompt['CarbonIntensity'],
-        #         "status": prompt['PartitionKey']  # "pending" or "completed"
-        #     })
-
-    return func.HttpResponse(
-        body=json.dumps(prompts_list),
-        status_code=200,
-        mimetype="application/json"
-    )
+    except Exception as e:
+        logging.error(f"Error: {e}")
+        return func.HttpResponse(
+            body=json.dumps({"error": str(e)}),
+            status_code=500,
+            mimetype="application/json"
+        )
