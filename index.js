@@ -25,14 +25,20 @@ async function fetchPrompts() {
   try {
     const res = await fetch('/api/prompts');
     const data = await res.json(); 
-    console.log('Raw response:',data);
+    console.log('Raw response:', data);
 
-    document.querySelector('#response3').innerHTML = data.prompt;
+    const html = data.map(item => 
+      `<li class="list-group-item">
+        <strong>${item.prompt}</strong><br>
+        <small>Status: ${item.status} | Carbon: ${item.carbonIntensity}</small>
+      </li>`
+    ).join('');
+    
+    document.querySelector('#response3').innerHTML = html;
   } catch (err) {
-      document.querySelector('#response3').textContent = 'Error: ' + err.message;
+    document.querySelector('#response3').textContent = 'Error: ' + err.message;
   }
 }
-
 
 
 async function handleSend() {
