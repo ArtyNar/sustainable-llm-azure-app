@@ -22,23 +22,13 @@ async function fetchCarbonIntesnityData() {
 
 async function fetchPrompts() {
   try {
-    const res = await fetch('/api/prompts');
-
-    const text = await res.text(); 
-    console.log('Raw response:', text);  
-
+    const res = await fetch('/api/carbon-intensity');
+    const text = await res.text();
+    console.log('Raw response:', text);
     const data = await res.json(); 
-    
-    const html = data.map(item => 
-      `<li class="list-group-item">
-        <strong>${item.prompt}</strong><br>
-        <small>Status: ${item.status} | Carbon: ${item.carbonIntensity}</small>
-      </li>`
-    ).join('');
-    
-    document.querySelector('#response3').innerHTML = html;
+    document.querySelector('#response').innerHTML = data;
   } catch (err) {
-    document.querySelector('#response3').textContent = 'Error: ' + err.message;
+      document.querySelector('#response').textContent = 'Error: ' + err.message;
   }
 }
 
