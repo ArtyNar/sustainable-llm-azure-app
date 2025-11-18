@@ -229,7 +229,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     
 
 
-@app.function_name(name="GetCarbonIntensity")
+@app.function_name(name="GetCarbonIntensityPast")
 @app.route(route="carbon-intensity-past", auth_level=func.AuthLevel.ANONYMOUS)
 def get_CI(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Fetching carbon intensity data.')
