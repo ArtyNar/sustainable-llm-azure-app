@@ -1,14 +1,16 @@
 import azure.functions as func
+from openai import AzureOpenAI
 import logging
 import json
+import uuid
 import requests
 import os
-from openai import AzureOpenAI
+from datetime import datetime
 
 app = func.FunctionApp()
 
 @app.function_name(name="HttpTrigger1")
-@app.route(route="send", auth_level=func.AuthLevel.ANONYMOUS)
+@app.route(route="send", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
 def test_function(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     
@@ -153,18 +155,50 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
             mimetype="application/json"
         )
     
-@app.function_name(name="SchedulePrompt")
-@app.route(route="schedule", auth_level=func.AuthLevel.ANONYMOUS)
-def get_CI(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Attempting to schedule a prompt.')
 
-    payload = {
-        "message": f"Scheduled successfully.",
-        "status": "ok"
+
+# @app.function_name(name="SchedulePrompt")
+# @app.route(route="schedule", auth_level=func.AuthLevel.ANONYMOUS)
+# def get_CI(req: func.HttpRequest) -> func.HttpResponse:
+#     logging.info('Attempting to schedule a prompt.')
+
+#     payload = {
+#         "message": f"Scheduled successfully.",
+#         "status": "ok"
+#     }
+
+#     return func.HttpResponse(
+#         body=json.dumps(payload),
+#         status_code=200,
+#         mimetype="application/json"
+#     )
+
+
+@app.function_name(name="SchedulePrompt")
+@app.route(route="schedule", methods=["POST"])
+@app.table_output(arg_name="message",
+                  connection="TABLE_PROMPT_STORAGE", # Make sure env variable is set 
+                  table_name="messages")
+def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
+
+    # Get prompt from frontend 
+    req_body = req.get_json()
+    prompt_text = req_body.get('prompt')
+
+    # Create table row 
+    data = {
+        "PartitionKey": "pending", # Effectively table name
+        "RowKey": str(uuid.uuid4()), # Generates a key 
+        "Prompt": prompt_text,      
+        "Timestamp":  datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "CarbonIntensity": 0
     }
 
+    table_json = json.dumps(data)
+    message.set(table_json)
+
     return func.HttpResponse(
-        body=json.dumps(payload),
+        body=json.dumps({"message": f"Scheduled successfully.","status": "ok"}),
         status_code=200,
         mimetype="application/json"
     )
