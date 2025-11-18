@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchCarbonIntesnityData() {
   try {
     const res = await fetch('/api/carbon-intensity');
+    const data = res.json(); 
+    
     document.querySelector('#response2').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b><br>Grid: " + data.zone + " " + data.zone_name;
   } catch (err) {
       document.querySelector('#response2').textContent = 'Error: ' + err.message;
@@ -22,7 +24,7 @@ async function fetchCarbonIntesnityData() {
 async function fetchPrompts() {
   try {
     const res = await fetch('/api/prompts');
-    const data = await res.json(); 
+    const data = res.json(); 
     console.log('Raw response:',data);
 
     document.querySelector('#response3').innerHTML = data.prompt;
