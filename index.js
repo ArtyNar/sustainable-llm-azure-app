@@ -23,6 +23,10 @@ async function fetchCarbonIntesnityData() {
 async function fetchPrompts() {
   try {
     const res = await fetch('/api/prompts');
+
+    const text = await res.text(); 
+    console.log('Raw response:', text);  
+
     const data = await res.json(); 
     
     const html = data.map(item => 
@@ -37,6 +41,9 @@ async function fetchPrompts() {
     document.querySelector('#response3').textContent = 'Error: ' + err.message;
   }
 }
+
+
+
 async function handleSend() {
   try {
     const promptText = document.getElementById('prompt').value;
