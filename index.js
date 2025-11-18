@@ -15,7 +15,7 @@ async function plotChart() {
     try {
       const res = await fetch('/api/carbon-intensity-past');
       const data = await res.json(); 
-      console.log("EM past CI:", data.intensities)
+      console.log("EM past CI:", data)
     } catch (err) {
       console.error("EM past CI:", data)
     }
@@ -23,10 +23,10 @@ async function plotChart() {
           const myChart = new Chart(ctx, {
               type: 'line',
               data: {
-                  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                  labels: data.stamps,
                   datasets: [{
                       label: 'Carbon Intensity (gCO2eq/kWh)',
-                      data: [6, 10, 3, 5, 2, 3],
+                      data: data.intensities,
                       backgroundColor: [
                           'rgba(255, 206, 86, 0.2)',
                       ],
