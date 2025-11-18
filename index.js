@@ -15,7 +15,7 @@ async function plotChart() {
     try {
       const res = await fetch('/api/carbon-intensity-past');
       const data = await res.json(); 
-      console.log("EM past CI:", data)
+      console.log("EM past CI:", data.intensities)
     } catch (err) {
       console.error("EM past CI:", data)
     }
