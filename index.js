@@ -23,9 +23,9 @@ async function fetchCarbonIntesnityData() {
 async function fetchPrompts() {
   try {
     const res = await fetch('/api/carbon-intensity');
-    const text = await res.text();
-    console.log('Raw response:', text);
-    const data = await res.json(); 
+    //const text = await res.text();
+    console.log('Raw response:',res);
+    const data = await res; 
     document.querySelector('#response').innerHTML = data;
   } catch (err) {
       document.querySelector('#response').textContent = 'Error: ' + err.message;
