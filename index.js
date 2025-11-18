@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Auto-fetch on load
   fetchCarbonIntesnityData();
-  //fetchPrompts();
+  fetchPrompts();
 
   // Send button click handler
   document.querySelector('#send').addEventListener('click', handleSend);
