@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Auto-fetch on load
   fetchCarbonIntesnityData();
-  fetchPrompts();
+  //fetchPrompts();
 
   // Send button click handler
   document.querySelector('#send').addEventListener('click', handleSend);
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchCarbonIntesnityData() {
   try {
     const res = await fetch('/api/carbon-intensity');
-    const data = res.json(); 
+    const data = await res.json(); 
     
     document.querySelector('#response2').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b><br>Grid: " + data.zone + " " + data.zone_name;
   } catch (err) {
