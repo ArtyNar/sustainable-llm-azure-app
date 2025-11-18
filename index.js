@@ -19,10 +19,7 @@ async function plotChart() {
     } catch (err) {
       console.error("EM past CI:", data_from_EM)
     }
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
+    const data = {
             labels: data_from_EM.stamps,
             datasets: [{
                 label: 'Carbon Intensity (gCO2eq/kWh)',
@@ -36,7 +33,12 @@ async function plotChart() {
                 borderWidth: 1
             }]
         }
-    });
+    const chart = {
+        type: 'line',
+        data: data
+    }
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, chart);
   }
 
 async function fetchCarbonIntesnityData() {
