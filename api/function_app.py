@@ -211,18 +211,28 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                     "carbonIntensity": "oops",
                     "status": "oops"  # "pending" or "completed"
                 }]),            
-                status_code=200,
+                status_code=500,
                 mimetype="application/json"
             )
     
-    for prompt in prompts:
-        prompts_list.append({
-            "id": prompt['RowKey'],
-            "prompt": prompt['Prompt'],
-            "carbonIntensity": prompt['CarbonIntensity'],
-            "status": prompt['PartitionKey']  # "pending" or "completed"
-        })
-    
+    return func.HttpResponse(
+        body=json.dumps([{
+                "id": "oops",
+                "prompt": "oops",
+                "carbonIntensity": "oops",
+                "status": "oops"  # "pending" or "completed"
+            }]),            
+            status_code=200,
+            mimetype="application/json"
+        )
+        # for prompt in prompts:
+        #     prompts_list.append({
+        #         "id": prompt['RowKey'],
+        #         "prompt": prompt['Prompt'],
+        #         "carbonIntensity": prompt['CarbonIntensity'],
+        #         "status": prompt['PartitionKey']  # "pending" or "completed"
+        #     })
+
     return func.HttpResponse(
         body=json.dumps(prompts_list),
         status_code=200,
