@@ -14,30 +14,30 @@ document.addEventListener('DOMContentLoaded', () => {
 async function plotChart() {
     try {
       const res = await fetch('/api/carbon-intensity-past');
-      const data = await res.json(); 
-      console.log("EM past CI:", data)
+      const data_from_EM = await res.json(); 
+      console.log("EM past CI:", data_from_EM)
     } catch (err) {
-      console.error("EM past CI:", data)
+      console.error("EM past CI:", data_from_EM)
     }
-  const ctx = document.getElementById('myChart').getContext('2d');
-          const myChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                  labels: data.stamps,
-                  datasets: [{
-                      label: 'Carbon Intensity (gCO2eq/kWh)',
-                      data: data.intensities,
-                      backgroundColor: [
-                          'rgba(255, 206, 86, 0.2)',
-                      ],
-                      borderColor: [
-                          'rgba(255, 206, 86, 1)',
-                      ],
-                      borderWidth: 1
-                  }]
-              }
-          });
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data_from_EM.stamps,
+            datasets: [{
+                label: 'Carbon Intensity (gCO2eq/kWh)',
+                data: data_from_EM.intensities,
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                ],
+                borderWidth: 1
+            }]
         }
+    });
+  }
 
 async function fetchCarbonIntesnityData() {
   try {
