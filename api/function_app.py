@@ -193,11 +193,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
             mimetype="application/json"
         )
 
-    return func.HttpResponse(
-        body=json.dumps({"message": f"Something hhappening.","status": "ok"}),
-        status_code=200,
-        mimetype="application/json"
-    )
+
     # Create table row 
     data = {
         "PartitionKey": "pending", # Effectively table name
@@ -206,6 +202,12 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "Timestamp":  datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "CarbonIntensity": 0
     }
+
+    return func.HttpResponse(
+        body=json.dumps({"message": f"Something hhappening.","status": "ok"}),
+        status_code=200,
+        mimetype="application/json"
+    )
 
     table_json = json.dumps(data)
     message.set(table_json)
