@@ -217,7 +217,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     
     return func.HttpResponse(
         body=json.dumps([{
-                "id": "oops",
+                "id": prompts,
                 "prompt": "oops",
                 "carbonIntensity": "oops",
                 "status": "oops"  # "pending" or "completed"
