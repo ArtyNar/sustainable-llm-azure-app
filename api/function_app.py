@@ -156,29 +156,11 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
         )
     
 
-
-# @app.function_name(name="SchedulePrompt")
-# @app.route(route="schedule", auth_level=func.AuthLevel.ANONYMOUS)
-# def get_CI(req: func.HttpRequest) -> func.HttpResponse:
-#     logging.info('Attempting to schedule a prompt.')
-
-#     payload = {
-#         "message": f"Scheduled successfully.",
-#         "status": "ok"
-#     }
-
-#     return func.HttpResponse(
-#         body=json.dumps(payload),
-#         status_code=200,
-#         mimetype="application/json"
-#     )
-
-
 @app.function_name(name="SchedulePrompt")
 @app.route(route="schedule", methods=["POST"])
 @app.table_output(arg_name="message",
                   connection="TABLE_PROMPT_STORAGE", # Make sure env variable is set 
-                  table_name="messages")
+                  table_name="prompttable")
 def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
 
     # Get prompt from frontend 
