@@ -202,6 +202,13 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
                  table_name="prompttable")
 def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     prompts_list = []
+
+    if not prompts:
+        return func.HttpResponse(
+            body=json.dumps([]),
+            status_code=200,
+            mimetype="application/json"
+        )
     
     for prompt in prompts:
         prompts_list.append({
