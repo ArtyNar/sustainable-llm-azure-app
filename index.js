@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function plotChart() {
+    try {
+      const res = await fetch('/api/carbon-intensity-past');
+      const data = await res.json(); 
+      console.log("EM past CI:", data)
+    } catch (err) {
+      console.error("EM past CI:", data)
+    }
   const ctx = document.getElementById('myChart').getContext('2d');
           const myChart = new Chart(ctx, {
               type: 'line',
