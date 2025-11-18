@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function plotChart() {
+    data_from_EM = {}
     try {
       const res = await fetch('/api/carbon-intensity-past');
-      const data_from_EM = await res.json(); 
+      data_from_EM = await res.json(); 
       console.log("EM past CI:", data_from_EM)
     } catch (err) {
       console.error("EM past CI:", data_from_EM)
