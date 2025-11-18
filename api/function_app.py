@@ -203,11 +203,6 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "CarbonIntensity": 0
     }
 
-    return func.HttpResponse(
-        body=json.dumps({"message": f"Something hhappening.","status": "ok"}),
-        status_code=200,
-        mimetype="application/json"
-    )
 
     table_json = json.dumps(data)
     message.set(table_json)
