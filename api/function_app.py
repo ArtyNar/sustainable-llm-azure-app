@@ -199,7 +199,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "PartitionKey": "pending", # Effectively table name
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "Timestamp":  datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "Timestamp":  datetime.now(datetime.timezone.utc).isoformat(),
         "CarbonIntensity": 0
     }
 
