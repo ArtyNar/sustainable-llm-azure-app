@@ -202,17 +202,18 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
                  table_name="prompttable")
 def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     prompts_list = []
-    return func.HttpResponse(
-        body=json.dumps({"message": f"successfully.","status": "ok"}),
-        status_code=200,
-        mimetype="application/json"
-    )
+
     if not prompts:
         return func.HttpResponse(
-            body=json.dumps([]),
-            status_code=200,
-            mimetype="application/json"
-        )
+            body=json.dumps([{
+                    "id": "oops",
+                    "prompt": "oops",
+                    "carbonIntensity": "oops",
+                    "status": "oops"  # "pending" or "completed"
+                }]),            
+                status_code=200,
+                mimetype="application/json"
+            )
     
     for prompt in prompts:
         prompts_list.append({
