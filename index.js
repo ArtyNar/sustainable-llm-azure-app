@@ -73,7 +73,6 @@ async function fetchPrompts() {
   }
 }
 
-
 async function handleSend() {
   try {
     const promptText = document.getElementById('prompt').value;
@@ -91,27 +90,77 @@ async function handleSend() {
         model: model
       })
     });
-    
-    let data;
 
-    try {
-      data = await res.json(); // try to parse JSON
-    } catch (e) {
-      data = { error: "Invalid JSON from server" };
-    }
-
+    // If server returned error (non-200)
     if (!res.ok) {
-      // handle non-200 responses
-      document.querySelector('#response').innerHTML = data.error || "Request failed";
+      let errText;
+      try { errText = await res.text(); } catch {}
+      document.querySelector('#response').innerHTML = errText || "Request failed";
       return;
     }
 
-    document.querySelector('#response').innerHTML = data.message + '\n\n<xmp>Output tokens: ' + data.out_tokens + '</xmp>';
+    // --- STREAMING MODE STARTS HERE ---
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    let fullText = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      fullText += chunk;
+
+      // Update UI as chunks arrive
+      document.querySelector('#response').innerHTML = fullText;
+    }
+    // --- STREAMING MODE ENDS HERE ---
 
   } catch (err) {
     document.querySelector('#response').innerHTML = 'Error: ' + err.message;
   }
 }
+
+
+// async function handleSend() {
+//   try {
+//     const promptText = document.getElementById('prompt').value;
+//     const model = document.getElementById('model').value;
+
+//     console.log(model);
+
+//     const res = await fetch('/api/send', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({
+//         prompt: promptText,
+//         model: model
+//       })
+//     });
+    
+//     let data;
+
+//     try {
+//       data = await res.json(); // try to parse JSON
+//     } catch (e) {
+//       data = { error: "Invalid JSON from server" };
+//     }
+
+//     if (!res.ok) {
+//       // handle non-200 responses
+//       document.querySelector('#response').innerHTML = data.error || "Request failed";
+//       return;
+//     }
+
+//     document.querySelector('#response').innerHTML = data.message + '\n\n<xmp>Output tokens: ' + data.out_tokens + '</xmp>';
+
+//   } catch (err) {
+//     document.querySelector('#response').innerHTML = 'Error: ' + err.message;
+//   }
+// }
 
 async function handleSchedule() {
   try {
