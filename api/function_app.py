@@ -251,11 +251,14 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
 
         intensities = [item['carbonIntensity'] for item in response.json()['history']]
         stamps = [item['datetime'] for item in response.json()['history']]
-
+        simple_stamps = [
+            datetime.fromisoformat(ts.replace("Z", "+00:00")).strftime("%b %d %H:%M")
+            for ts in stamps
+        ]
         
         payload = {
             "intensities": intensities,
-            "stamps": stamps,
+            "stamps": simple_stamps,
             "status": "ok"
         }
 
