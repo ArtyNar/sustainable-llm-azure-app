@@ -87,7 +87,8 @@ async function handleSend() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        prompt: promptText
+        prompt: promptText,
+        model: model
       })
     });
     

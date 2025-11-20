@@ -17,6 +17,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     try:
         req_body = req.get_json()
         prompt_text = req_body.get('prompt')
+        model = req_body.get('model')
     except Exception as e:
         logging.error(f"JSON parsing error: {e}")
         return func.HttpResponse(
@@ -53,7 +54,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         )
     
     api_version = "2024-12-01-preview"
-    deployment = "gpt-4o-mini"
+    deployment = model
 
     try:
         client = AzureOpenAI(
