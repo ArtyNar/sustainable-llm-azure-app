@@ -254,7 +254,7 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
 
         intensities = [item['carbonIntensity'] for item in response.json()['history']]
         stamps = [item['datetime'] for item in response.json()['history']]
-        simple_times = [
+        simple_stamps = [
             datetime.fromisoformat(ts).astimezone(ZoneInfo("America/Denver")).strftime("%b %d %H:%M")
             for ts in stamps
         ]
