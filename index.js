@@ -77,7 +77,10 @@ async function fetchPrompts() {
 async function handleSend() {
   try {
     const promptText = document.getElementById('prompt').value;
-    
+    const model = document.getElementById('model').value;
+
+    console.log(model);
+
     const res = await fetch('/api/send', {
       method: 'POST',
       headers: {
