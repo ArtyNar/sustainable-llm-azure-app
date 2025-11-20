@@ -63,7 +63,7 @@ async function fetchPrompts() {
     const html = data.map(item => 
       `<li class="list-group-item">
         <strong>${item.prompt}</strong><br>
-        <small>Status: <span class="badge badge-pill badge-warning">${item.status}</span> | Carbon: ${item.carbonIntensity}</small>
+        <small>Status: <span class="badge badge-pill bg-warning">${item.status}</span> | Carbon: ${item.carbonIntensity}</small>
       </li>`
     ).join('');
     
@@ -102,7 +102,7 @@ async function handleSend() {
       return;
     }
 
-    document.querySelector('#response').innerHTML = data.message;
+    document.querySelector('#response').innerHTML = data.message + '\nOutput tokens: ' + data.out_tokens;
 
   } catch (err) {
     document.querySelector('#response').innerHTML = 'Error: ' + err.message;

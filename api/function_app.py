@@ -95,10 +95,11 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         )
     
     response_text = response.choices[0].message.content
-
+    out_tokens = response.usage.completion_tokens
 
     payload = {
         "message": f"{response_text}",
+        "out_tokens": f"{out_tokens}",
         "status": "ok"
     }
     
