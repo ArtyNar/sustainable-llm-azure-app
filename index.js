@@ -47,9 +47,10 @@ async function fetchCarbonIntesnityData() {
     const res = await fetch('/api/carbon-intensity');
     const data = await res.json(); 
     console.log("EM current CI:", data)
-    document.querySelector('#response2').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b><br>Grid: " + data.zone + " " + data.zone_name;
+    document.querySelector('#EMresponse').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b>";
+    document.querySelector('#grid').innerHTML = "Grid: " + data.zone + " " + data.zone_name;
   } catch (err) {
-      document.querySelector('#response2').textContent = 'Error: ' + err.message;
+      document.querySelector('#EMresponse').textContent = 'Error: ' + err.message;
   }
 }
 
@@ -62,7 +63,7 @@ async function fetchPrompts() {
     const html = data.map(item => 
       `<li class="list-group-item">
         <strong>${item.prompt}</strong><br>
-        <small>Status: ${item.status} | Carbon: ${item.carbonIntensity}</small>
+        <small>Status: <span class="badge badge-warning">${item.status}</span> | Carbon: ${item.carbonIntensity}</small>
       </li>`
     ).join('');
     
