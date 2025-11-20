@@ -57,7 +57,7 @@ async function fetchPrompts() {
   try {
     const res = await fetch('/api/prompts');
     const data = await res.json(); 
-    console.log('Raw response:', data);
+    console.log('Elements in store:', data);
 
     const html = data.map(item => 
       `<li class="list-group-item">
