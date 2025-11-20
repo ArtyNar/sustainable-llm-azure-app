@@ -10,149 +10,106 @@ from zoneinfo import ZoneInfo
 
 app = func.FunctionApp()
 
-# @app.function_name(name="HttpTrigger1")
-# @app.route(route="send", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
-# def test_function(req: func.HttpRequest) -> func.HttpResponse:
-#     logging.info('Python HTTP trigger function processed a request.')
-    
-#     try:
-#         req_body = req.get_json()
-#         prompt_text = req_body.get('prompt')
-#         model = req_body.get('model')
-#     except Exception as e:
-#         logging.error(f"JSON parsing error: {e}")
-#         return func.HttpResponse(
-#             json.dumps({"error": "Invalid JSON body"}),
-#             status_code=400,
-#             mimetype="application/json"
-#         )
-
-
-#     if not prompt_text or prompt_text == "":
-#         return func.HttpResponse(
-#             body=json.dumps({"error": "Please provide a prompt"}),
-#             status_code=400,
-#             mimetype="application/json"
-#         )
-    
-#     logging.info(f'Received prompt: {prompt_text}')
-    
-#     AZURE_OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
-#     AZURE_OPENAI_KEY = os.environ.get("AZURE_OPENAI_KEY")
-
-#     if not AZURE_OPENAI_ENDPOINT:
-#         return func.HttpResponse(
-#             body=json.dumps({"error": "AZ_OPENAI_ENDPOINT not configured"}),
-#             status_code=500,
-#             mimetype="application/json"
-#         )
-    
-#     if not AZURE_OPENAI_KEY:
-#         return func.HttpResponse(
-#             body=json.dumps({"error": "AZ_OPENAI_KEY not configured"}),
-#             status_code=500,
-#             mimetype="application/json"
-#         )
-    
-#     api_version = "2024-12-01-preview"
-#     deployment = model
-
-#     try:
-#         client = AzureOpenAI(
-#             api_version=api_version,
-#             azure_endpoint=AZURE_OPENAI_ENDPOINT,
-#             api_key=AZURE_OPENAI_KEY,
-#         )
-#     except Exception as e:
-#         logging.error(f"JSON parsing error: {e}")
-#         return func.HttpResponse(
-#             json.dumps({"error": "Failed to connect to Azure OpenAI"}),
-#             status_code=400,
-#             mimetype="application/json"
-#         )
-    
-#     try:   
-#         response = client.chat.completions.create(
-#             messages=[
-#                 {
-#                     "role": "system",
-#                     "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. Also, you only have 100 output tokens allowed, so make it short.",
-#                 },
-#                 {
-#                     "role": "user",
-#                     "content": prompt_text,
-#                 }
-#             ],
-#             max_tokens=100,
-#             temperature=1.0,
-#             top_p=1.0,
-#             model=deployment
-#         )
-#     except Exception as e:
-#         logging.error(f"JSON parsing error: {e}")
-#         return func.HttpResponse(
-#             json.dumps({"error": "Failed to get AZAI response"}),
-#             status_code=400,
-#             mimetype="application/json"
-#         )
-    
-#     response_text = response.choices[0].message.content
-#     out_tokens = response.usage.completion_tokens
-
-#     payload = {
-#         "message": f"{response_text}",
-#         "out_tokens": f"{out_tokens}",
-#         "status": "ok"
-#     }
-    
-#     return func.HttpResponse(
-#         body=json.dumps(payload),
-#         status_code=200,
-#         mimetype="application/json"
-#     )
-
 @app.function_name(name="HttpTrigger1")
 @app.route(route="send", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
-def test_function(req: func.HttpRequest):
+def test_function(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+    
+    try:
+        req_body = req.get_json()
+        prompt_text = req_body.get('prompt')
+        model = req_body.get('model')
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "Invalid JSON body"}),
+            status_code=400,
+            mimetype="application/json"
+        )
 
-    req_body = req.get_json()
-    prompt_text = req_body.get('prompt')
-    model = req_body.get('model')
 
-    client = AzureOpenAI(
-        api_version="2024-12-01-preview",
-        azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-        api_key=os.environ["AZURE_OPENAI_KEY"],
-    )
+    if not prompt_text or prompt_text == "":
+        return func.HttpResponse(
+            body=json.dumps({"error": "Please provide a prompt"}),
+            status_code=400,
+            mimetype="application/json"
+        )
+    
+    logging.info(f'Received prompt: {prompt_text}')
+    
+    AZURE_OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
+    AZURE_OPENAI_KEY = os.environ.get("AZURE_OPENAI_KEY")
 
-    # Call OpenAI with streaming enabled
-    stream = client.chat.completions.create(
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt_text},
-        ],
-        model=model,
-        max_tokens=100,
-        stream=True,
-    )
+    if not AZURE_OPENAI_ENDPOINT:
+        return func.HttpResponse(
+            body=json.dumps({"error": "AZ_OPENAI_ENDPOINT not configured"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+    
+    if not AZURE_OPENAI_KEY:
+        return func.HttpResponse(
+            body=json.dumps({"error": "AZ_OPENAI_KEY not configured"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+    
+    api_version = "2024-12-01-preview"
+    deployment = model
 
-    # This generator yields chunks to the client as they arrive
-    def chunk_generator():
-        try:
-            for chunk in stream:
-                if chunk.choices and chunk.choices[0].delta.content:
-                    text = chunk.choices[0].delta.content
-                    yield text
-        except Exception as e:
-            yield f"\n[error: {e}]"
+    try:
+        client = AzureOpenAI(
+            api_version=api_version,
+            azure_endpoint=AZURE_OPENAI_ENDPOINT,
+            api_key=AZURE_OPENAI_KEY,
+        )
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "Failed to connect to Azure OpenAI"}),
+            status_code=400,
+            mimetype="application/json"
+        )
+    
+    try:   
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. Also, you only have 100 output tokens allowed, so make it short.",
+                },
+                {
+                    "role": "user",
+                    "content": prompt_text,
+                }
+            ],
+            max_tokens=100,
+            temperature=1.0,
+            top_p=1.0,
+            model=deployment
+        )
+    except Exception as e:
+        logging.error(f"JSON parsing error: {e}")
+        return func.HttpResponse(
+            json.dumps({"error": "Failed to get AZAI response"}),
+            status_code=400,
+            mimetype="application/json"
+        )
+    
+    response_text = response.choices[0].message.content
+    out_tokens = response.usage.completion_tokens
 
-    # Return streaming response
+    payload = {
+        "message": f"{response_text}",
+        "out_tokens": f"{out_tokens}",
+        "status": "ok"
+    }
+    
     return func.HttpResponse(
-        body=chunk_generator(),
+        body=json.dumps(payload),
         status_code=200,
-        mimetype="text/plain",
+        mimetype="application/json"
     )
-
 
 @app.function_name(name="GetCarbonIntensity")
 @app.route(route="carbon-intensity", auth_level=func.AuthLevel.ANONYMOUS)
