@@ -106,7 +106,7 @@ async function handleSend() {
       return;
     }
 
-    document.querySelector('#response').innerHTML = data.message + '\n\n<code text-success>Output tokens: ' + data.out_tokens + '</code>';
+    document.querySelector('#response').innerHTML = data.message + '\n\n<code class="text-success">Output tokens: ' + data.out_tokens + '</code>';
 
   } catch (err) {
     document.querySelector('#response').innerHTML = 'Error: ' + err.message;
