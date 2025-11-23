@@ -152,7 +152,6 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
             mimetype="application/json"
         )
     
-
 @app.function_name(name="SchedulePrompt")
 @app.route(route="schedule", methods=["POST"])
 @app.table_output(arg_name="message",
@@ -204,7 +203,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "PartitionKey": "pending", # Effectively table name
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "Timestamp":  datetime.now().isoformat(),
+        #"Timestamp":  datetime.now().isoformat(),
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
@@ -239,7 +238,9 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "carbonIntensity_S": prompt['CarbonIntensity_s'],
                 "carbonIntensity_C": prompt['CarbonIntensity_c'],
                 "status": prompt['PartitionKey'],
-                "timestamp": prompt['Timestamp']
+                "timestamp": prompt['Timestamp'],
+                "model": prompt['Model'],
+                "schedule": prompt['Schedule']
             })
         
         return func.HttpResponse(
@@ -255,11 +256,9 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
             mimetype="application/json"
         )
     
-
-
 @app.function_name(name="GetCarbonIntensityPast")
 @app.route(route="carbon-intensity-past", auth_level=func.AuthLevel.ANONYMOUS)
-def get_CI(req: func.HttpRequest) -> func.HttpResponse:
+def get_CI_past(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Fetching carbon intensity data.')
 
     try:

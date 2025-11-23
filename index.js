@@ -62,7 +62,7 @@ async function fetchPrompts() {
     console.log('Elements in store:', data);
 
     if (data.length === 0){
-      document.querySelector('#response3').innerHTML = "<li class=\"list-group-item\">Nothing here yet.<\li>";
+      document.querySelector('#response3').innerHTML = "<li class=\"list-group-item\">Nothing here yet.</li>";
     }
     else
     {
@@ -127,7 +127,7 @@ async function handleSchedule() {
     const schedule = document.getElementById('schedule-choise').value;
 
     if (schedule === "None"){
-      document.querySelector('#response').innerHTML = "Please select a schedule.";
+      document.querySelector('#response').innerHTML = '<p class="text-danger">Please select a schedule.</p>';
       return;
     }
 
@@ -159,6 +159,8 @@ async function handleSchedule() {
     }
 
     document.querySelector('#response').textContent = data.message;
+    document.getElementById('prompt').value = '';
+
     fetchPrompts()
   } catch (err) {
     document.querySelector('#response').textContent = 'Error: ' + err.message;
