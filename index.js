@@ -61,7 +61,12 @@ async function fetchPrompts() {
     const data = await res.json(); 
     console.log('Elements in store:', data);
 
-    const html = data.map(item => 
+    if (data.length === 0){
+      document.querySelector('#response3').innerHTML = "<li class=\"list-group-item\">Nothing here yet.<\li>";
+    }
+    else
+    {
+      const html = data.map(item => 
       `<li class="list-group-item">
         <strong>${item.timestamp}</strong><br>
         <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> <br> ${item.prompt} <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) ${item.carbonIntensity_C}: </small>
@@ -69,6 +74,7 @@ async function fetchPrompts() {
     ).join('');
     
     document.querySelector('#response3').innerHTML = html;
+    }
   } catch (err) {
     document.querySelector('#response3').textContent = 'Error: ' + err.message;
   }
@@ -119,6 +125,11 @@ async function handleSchedule() {
     const promptText = document.getElementById('prompt').value;
     const model = document.getElementById('model').value;
     const schedule = document.getElementById('schedule-choise').value;
+
+    if (schedule === "None"){
+      document.querySelector('#response').innerHTML = "Please select a schedule.";
+      return;
+    }
 
     const res = await fetch('/api/schedule', {
       method: 'POST',
