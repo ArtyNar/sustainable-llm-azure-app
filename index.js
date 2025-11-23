@@ -63,7 +63,7 @@ async function fetchPrompts() {
     const html = data.map(item => 
       `<li class="list-group-item">
         <strong>${item.prompt}</strong><br>
-        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> | Carbon: ${item.carbonIntensity}</small>
+        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> | Carbon (schedule time) : ${item.carbonIntensity} | Carbon (execution time) ${item.carbonIntensity}: </small>
       </li>`
     ).join('');
     
@@ -116,14 +116,18 @@ async function handleSend() {
 async function handleSchedule() {
   try {
     const promptText = document.getElementById('prompt').value;
-    
+    const model = document.getElementById('model').value;
+    const schedule = document.getElementById('schedule').value;
+
     const res = await fetch('/api/schedule', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        prompt: promptText
+        prompt: promptText,
+        model: model,
+        schedule: schedule
       })
     });
     

@@ -7,12 +7,13 @@ import requests
 import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from utils import get_cur_CI
 
 app = func.FunctionApp()
 
-@app.function_name(name="HttpTrigger1")
+@app.function_name(name="sendLLM")
 @app.route(route="send", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
-def test_function(req: func.HttpRequest) -> func.HttpResponse:
+def sendLLM(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     
     try:
@@ -126,15 +127,8 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
                 mimetype="application/json"
             )
 
-        url = "https://api.electricitymaps.com/v3/carbon-intensity/latest?dataCenterRegion=eastus2&dataCenterProvider=azure&disableEstimations=true&emissionFactorType=direct"
-        headers={"auth-token": EM_KEY}
-        response = requests.get(url,headers=headers)
-        response.raise_for_status()
+        cur_CI, cur_zone, timestamp = get_cur_CI(EM_KEY)
 
-        cur_CI = response.json()["carbonIntensity"]
-        cur_zone = response.json()["zone"]
-        timestamp = response.json()["datetime"]
-        
         payload = {
             "carbonIntensity": cur_CI,
             "zone": cur_zone,
@@ -170,11 +164,37 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
     try:
         req_body = req.get_json()
         prompt_text = req_body.get('prompt')
+        schedule = req_body.get('schedule')
+        model = req_body.get('model')
+
     except Exception as e:
         logging.error(f"JSON parsing error: {e}")
         return func.HttpResponse(
             json.dumps({"error": "Invalid JSON body"}),
             status_code=400,
+            mimetype="application/json"
+        )
+    
+    
+    try:
+        EM_KEY = os.environ.get("ELECTRICITY_MAPS_API_KEY")
+
+        if not EM_KEY:
+            return func.HttpResponse(
+                body=json.dumps({"error": "API key not configured"}),
+                status_code=500,
+                mimetype="application/json"
+            )
+        
+        cur_CI, cur_zone, timestamp = get_cur_CI(EM_KEY)
+        
+    
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error fetching carbon intensity: {str(e)}")
+
+        return func.HttpResponse(
+            body=json.dumps({"error": str(e), "status": "error"}),
+            status_code=500,
             mimetype="application/json"
         )
 
@@ -184,8 +204,11 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "PartitionKey": "pending", # Effectively table name
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        # "Timestamp":  datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat(),
-        "CarbonIntensity": 0
+        "Timestamp":  datetime.now().isoformat(),
+        "Model": model,
+        "Schedule": schedule,
+        "CarbonIntensity_s": cur_CI,
+        "CarbonIntensity_c": 0
     }
 
 
