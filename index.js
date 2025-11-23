@@ -63,8 +63,8 @@ async function fetchPrompts() {
 
     const html = data.map(item => 
       `<li class="list-group-item">
-        <strong>${item.prompt}</strong><br>
-        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> | Carbon (schedule time) : ${item.carbonIntensity_S} | Carbon (execution time) ${item.carbonIntensity_C}: </small>
+        <strong>${item.timestamp}</strong><br>
+        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> <br> ${item.prompt} <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) ${item.carbonIntensity_C}: </small>
       </li>`
     ).join('');
     
@@ -148,7 +148,7 @@ async function handleSchedule() {
     }
 
     document.querySelector('#response').textContent = data.message;
-
+    fetchPrompts()
   } catch (err) {
     document.querySelector('#response').textContent = 'Error: ' + err.message;
   }
