@@ -51,7 +51,7 @@ async function fetchCarbonIntesnityData() {
     document.querySelector('#EMresponse').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b>";
     document.querySelector('#grid').innerHTML = "Grid: " + data.zone + " " + data.zone_name;
   } catch (err) {
-      document.querySelector('#EMresponse').textContent = 'Error: ' + err.message;
+      document.querySelector('#EMresponse').textContent = '<p class="text-danger  m-0 p-0">' + err.message + '</p>'  ;
   }
 }
 
@@ -68,7 +68,7 @@ async function fetchPrompts() {
     console.log('Elements in store:', data);
 
     if (data.length === 0){
-      document.querySelector('#response3').innerHTML = "<li class=\"list-group-item text-center\">Nothing here yet.</li>";
+      document.querySelector('#response3').innerHTML = "<li class=\"list-group-item text-center\">Nothing here yet</li>";
     }
     else
     {
@@ -115,7 +115,7 @@ async function handleSend() {
 
     if (!res.ok) {
       // handle non-200 responses
-      document.querySelector('#response').innerHTML = '<p class="text-danger">' + data.error + '</p>'  || '<p class="text-danger">Request failed.</p>';
+      document.querySelector('#response').innerHTML = '<p class="text-danger  m-0 p-0">' + data.error + '</p>'  || '<p class="text-danger">Request failed.</p>';
       return;
     }
 
@@ -160,7 +160,7 @@ async function handleSchedule() {
 
     if (!res.ok) {
       // handle non-200 responses
-      document.querySelector('#response').innerHTML = '<p class="text-danger">' + data.error + '</p>' || '<p class="text-danger">Request failed.</p>';
+      document.querySelector('#response').innerHTML = '<p class="text-danger  m-0 p-0">' + data.error + '</p>' || '<p class="text-danger">Request failed.</p>';
       return;
     }
 

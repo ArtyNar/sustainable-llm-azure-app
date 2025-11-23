@@ -238,7 +238,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "carbonIntensity_S": prompt['CarbonIntensity_s'],
                 "carbonIntensity_C": prompt['CarbonIntensity_c'],
                 "status": prompt['PartitionKey'],
-                "timestamp": prompt['Timestamp'],
+                #"timestamp": prompt['Timestamp'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule']
             })
