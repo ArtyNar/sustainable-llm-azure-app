@@ -58,7 +58,13 @@ async function fetchCarbonIntesnityData() {
 async function fetchPrompts() {
   try {
     const res = await fetch('/api/prompts');
-    const data = await res.json(); 
+
+    try {
+      data = await res.json(); // try to parse JSON
+    } catch (e) {
+      data = { error: "Invalid JSON from server" };
+    }
+
     console.log('Elements in store:', data);
 
     if (data.length === 0){
@@ -109,7 +115,7 @@ async function handleSend() {
 
     if (!res.ok) {
       // handle non-200 responses
-      document.querySelector('#response').innerHTML = data.error || '<p class="text-danger">Request failed.</p>';
+      document.querySelector('#response').innerHTML = '<p class="text-danger">' + data.error + '</p>'  || '<p class="text-danger">Request failed.</p>';
       return;
     }
 
@@ -154,7 +160,7 @@ async function handleSchedule() {
 
     if (!res.ok) {
       // handle non-200 responses
-      document.querySelector('#response').innerHTML = data.error || '<p class="text-danger">Request failed.</p>';
+      document.querySelector('#response').innerHTML = '<p class="text-danger">' + data.error + '</p>' || '<p class="text-danger">Request failed.</p>';
       return;
     }
 
