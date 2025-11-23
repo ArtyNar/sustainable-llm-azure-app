@@ -118,7 +118,7 @@ async function handleSchedule() {
   try {
     const promptText = document.getElementById('prompt').value;
     const model = document.getElementById('model').value;
-    const schedule = document.getElementById('schedule').value;
+    const schedule = document.getElementById('schedule-choise').value;
 
     const res = await fetch('/api/schedule', {
       method: 'POST',
