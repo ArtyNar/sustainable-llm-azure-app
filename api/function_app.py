@@ -236,7 +236,8 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
             prompts_list.append({
                 "id": prompt['RowKey'],
                 "prompt": prompt['Prompt'],
-                "carbonIntensity": prompt['CarbonIntensity'],
+                "carbonIntensity_S": prompt['CarbonIntensity_s'],
+                "carbonIntensity_C": prompt['CarbonIntensity_c'],
                 "status": prompt['PartitionKey']
             })
         
