@@ -45,6 +45,7 @@ async function plotChart() {
 async function fetchCarbonIntesnityData() {
   try {
     const res = await fetch('/api/carbon-intensity');
+    console.log(res)
     const data = await res.json(); 
     console.log("EM current CI:", data)
     document.querySelector('#EMresponse').innerHTML = "Current carbon intensity: <b>" + data.carbonIntensity +" gCO2eq/kWh</b>";

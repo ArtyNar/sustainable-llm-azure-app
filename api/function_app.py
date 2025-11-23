@@ -133,7 +133,7 @@ def get_CI(req: func.HttpRequest) -> func.HttpResponse:
             "carbonIntensity": cur_CI,
             "zone": cur_zone,
             "zone_name": "PJM Interconnection",
-            #"timestamp": timestamp,
+            "timestamp": timestamp,
             "status": "ok"
         }
 
