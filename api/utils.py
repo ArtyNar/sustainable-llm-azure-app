@@ -9,3 +9,5 @@ def get_cur_CI(EM_KEY):
     cur_CI = response.json()["carbonIntensity"]
     cur_zone = response.json()["zone"]
     timestamp = response.json()["datetime"]
+
+    return cur_CI, cur_zone, timestamp
