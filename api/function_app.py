@@ -8,7 +8,6 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils import get_cur_CI
-from azure.data.tables import TableClient
 
 app = func.FunctionApp()
 
@@ -223,23 +222,24 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
 
 @app.function_name(name="GetPrompts")
 @app.route(route="prompts", methods=["GET"])
+@app.table_input(arg_name="prompts",
+                 connection="TABLE_PROMPT_STORAGE",
+                 table_name="prompttable")
 def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     try:
-        conn_str = os.environ["TABLE_PROMPT_STORAGE"]
-        table_name = "prompttable"
-        table_client = TableClient.from_connection_string(conn_str, table_name)
-
+        # Parse json string 
+        prompts_data = json.loads(prompts)
+        
         prompts_list = []
-        for prompt in table_client.list_entities():
+        for prompt in prompts_data:
             prompts_list.append({
-                "id": prompt["RowKey"],
-                "prompt": prompt.get("Prompt"),
-                "carbonIntensity_S": prompt.get("CarbonIntensity_s"),
-                "carbonIntensity_C": prompt.get("CarbonIntensity_c"),
-                "status": prompt["PartitionKey"],
-                "model": prompt.get("Model"),
-                "schedule": prompt.get("Schedule"),
-                "timestamp": prompt["Timestamp"].isoformat() if "Timestamp" in prompt else ""
+                "id": prompt['RowKey'],
+                "prompt": prompt['Prompt'],
+                "carbonIntensity_S": prompt['CarbonIntensity_s'],
+                "carbonIntensity_C": prompt['CarbonIntensity_c'],
+                "status": prompt['PartitionKey'],
+                "model": prompt['Model'],
+                "schedule": prompt['Schedule'],
             })
         
         return func.HttpResponse(
