@@ -240,7 +240,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "status": prompt['PartitionKey'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule'],
-                "timestamp": str(prompt.get('Timestamp') or prompt.get('timestamp') or '')
+                "timestamp": str(prompt.timestamp) if hasattr(prompt, "timestamp") else ""
             })
         
         return func.HttpResponse(
