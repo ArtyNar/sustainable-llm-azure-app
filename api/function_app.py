@@ -207,7 +207,8 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
-        "CarbonIntensity_c": 0
+        "CarbonIntensity_c": 0,
+        "ScheduledOn": ""
     }
 
 
