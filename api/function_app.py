@@ -238,7 +238,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "carbonIntensity_S": prompt['CarbonIntensity_s'],
                 "carbonIntensity_C": prompt['CarbonIntensity_c'],
                 "status": prompt['PartitionKey'],
-                "timestamp": prompt['Timestamp'].strftime("%b. %d, %H:%M") if prompt.get('Timestamp') else "",
+                "timestamp": (ts := prompt.get('Timestamp')).strftime("%b. %d, %H:%M") if ts else "",
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule']
             })
