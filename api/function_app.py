@@ -230,10 +230,8 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
         # Parse json string 
         prompts_data = json.loads(prompts)
         
-        items = prompts_data.get('items', [])
-
         prompts_list = []
-        for prompt in items:
+        for prompt in prompts_data:
             prompts_list.append({
                 "id": prompt['RowKey'],
                 "prompt": prompt['Prompt'],
