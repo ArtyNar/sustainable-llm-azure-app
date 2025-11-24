@@ -251,7 +251,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     except Exception as e:
         logging.error(f"Error: {e}")
         return func.HttpResponse(
-            body=json.dumps({"error": str(e)}),
+            body=json.dumps({"error": prompts_list}),
             status_code=500,
             mimetype="application/json"
         )
