@@ -230,15 +230,17 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
         # Parse json string 
         prompts_data = json.loads(prompts)
         
+        items = prompts_data.get('items', [])
+
         prompts_list = []
-        for prompt in prompts_data:
+        for prompt in items:
             prompts_list.append({
                 "id": prompt['RowKey'],
                 "prompt": prompt['Prompt'],
-                "carbonIntensity_S": prompt['CarbonIntensity_s'],
-                "carbonIntensity_C": prompt['CarbonIntensity_c'],
+                "carbonIntensity_S": prompt['CarbonIntensity_s']['value'],
+                "carbonIntensity_C": prompt['CarbonIntensity_c']['value'],
                 "status": prompt['PartitionKey'],
-                "timestamp": (ts := prompt.get('Timestamp')).strftime("%b. %d, %H:%M") if ts else "",
+                "timestamp": prompt['Timestamp'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule']
             })
