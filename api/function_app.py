@@ -239,7 +239,8 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "carbonIntensity_C": prompt['CarbonIntensity_c'],
                 "status": prompt['PartitionKey'],
                 "model": prompt['Model'],
-                "schedule": prompt['Schedule']
+                "schedule": prompt['Schedule'],
+                "timestamp": prompt['Timestamp'].isoformat() if isinstance(prompt['Timestamp'], datetime) else prompt['Timestamp']
             })
         
         return func.HttpResponse(
@@ -250,7 +251,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
     except Exception as e:
         logging.error(f"Error: {e}")
         return func.HttpResponse(
-            body=json.dumps({"error": prompts_list}),
+            body=json.dumps({"error": str(e)}),
             status_code=500,
             mimetype="application/json"
         )
