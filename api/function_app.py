@@ -240,7 +240,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "status": prompt['PartitionKey'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule'],
-                "timestamp": prompt['Timestamp'].isoformat() if isinstance(prompt['Timestamp'], datetime) else prompt['Timestamp']
+                "timestamp": str(prompt['Timestamp'])
             })
         
         return func.HttpResponse(
