@@ -75,7 +75,7 @@ async function fetchPrompts() {
       const html = data.map(item => 
       `<li class="list-group-item">
         <strong>${item.timestamp}</strong><br>
-        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${item.carbonIntensity_C} <hr class="my-4"> ${item.prompt}</small>
+        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> <br> <span class="badge badge-pill bg-secondary">${item.model}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${item.carbonIntensity_C} <hr class="my-1"> ${item.prompt}</small>
       </li>`
     ).join('');
     
