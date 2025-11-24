@@ -203,7 +203,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "PartitionKey": "pending", # Effectively table name
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        #"Timestamp":  datetime.now().isoformat(),
+        "TS":  datetime.now().strftime("%b %d %H:%M"),
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
@@ -240,6 +240,7 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "status": prompt['PartitionKey'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule'],
+                "timestamp": prompt['TS'],
             })
         
         return func.HttpResponse(
