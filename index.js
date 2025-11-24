@@ -78,7 +78,7 @@ async function fetchPrompts() {
 
         return `<li class="list-group-item">
           <strong>${item.timestamp}</strong><br>
-          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-secondary text-dark">${item.model}</span> <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${ci_c} <hr class="my-1"> ${item.prompt}</small>
+          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${ci_c} <hr class="my-1"> ${item.prompt}</small>
         </li>`;
       }).join('');
         
