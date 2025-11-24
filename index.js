@@ -72,13 +72,15 @@ async function fetchPrompts() {
     }
     else
     {
-      const html = data.map(item => 
-      `<li class="list-group-item">
-        <strong>${item.timestamp}</strong><br>
-        <small>Status: <span class="badge badge-pill bg-warning text-dark">${item.status}</span> <br>Model: <span class="badge badge-pill bg-secondary">${item.model}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${item.carbonIntensity_C} <hr class="my-1"> ${item.prompt}</small>
-      </li>`
-    ).join('');
-    
+      const html = data.map(item => {
+        const badgeClass = item.status === "pending" ? "bg-warning text-dark" : "bg-success";
+        
+        return `<li class="list-group-item">
+          <strong>${item.timestamp}</strong><br>
+          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-secondary">${item.model}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${item.carbonIntensity_C} <hr class="my-1"> ${item.prompt}</small>
+        </li>`;
+      }).join('');
+        
     document.querySelector('#response3').innerHTML = html;
     }
   } catch (err) {
