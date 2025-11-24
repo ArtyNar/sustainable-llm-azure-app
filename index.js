@@ -73,12 +73,12 @@ async function fetchPrompts() {
     else
     {
       const html = data.map(item => {
-        const badgeClass = item.status === "pending" ? "bg-warning text-dark" : "bg-success";
+        const badgeClass = item.status === "pending" ? "bg-warning" : "bg-success";
         const ci_c = item.carbonIntensity_C === 0 ? "pending" : item.carbonIntensity_C;
 
         return `<li class="list-group-item">
           <strong>${item.timestamp}</strong><br>
-          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-light text-dark">${item.model}</span> <br>Scheduled for: <span class="badge badge-pill bg-light">${item.schedule}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${ci_c} <hr class="my-1"> ${item.prompt}</small>
+          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-light">${item.model}</span> <br>Scheduled for: <span class="badge badge-pill bg-light">${item.schedule}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${ci_c} <hr class="my-1"> ${item.prompt}</small>
         </li>`;
       }).join('');
         
