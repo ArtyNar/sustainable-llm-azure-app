@@ -234,23 +234,12 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
 
         prompts_list = []
         for prompt in items:
-            timestamp = prompt.get('Timestamp')
-            if timestamp:
-                if isinstance(timestamp, str):
-                    # If it's already a string, parse it first
-                    from dateutil import parser
-                    timestamp = parser.parse(timestamp)
-                formatted_timestamp = timestamp.strftime("%b. %d, %H:%M")
-            else:
-                formatted_timestamp = ""
-
             prompts_list.append({
                 "id": prompt['RowKey'],
                 "prompt": prompt['Prompt'],
                 "carbonIntensity_S": prompt['CarbonIntensity_s']['value'],
                 "carbonIntensity_C": prompt['CarbonIntensity_c']['value'],
                 "status": prompt['PartitionKey'],
-                "timestamp": formatted_timestamp,
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule']
             })
