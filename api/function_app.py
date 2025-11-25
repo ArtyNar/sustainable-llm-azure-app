@@ -200,15 +200,17 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
 
     # Create table row 
     data = {
-        "PartitionKey": "pending", # Effectively table name
+        "PartitionKey": "prompts", 
+        "Status": "pending",
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "TS":  datetime.now().strftime("%b %d %H:%M"),
+        "CreatedAt":  datetime.now().isoformat(),
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
         "CarbonIntensity_c": 0,
-        "ScheduledOn": ""
+        "CompletedAt": None,
+        "Response": ""
     }
 
 
@@ -238,10 +240,12 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "prompt": prompt['Prompt'],
                 "carbonIntensity_S": prompt['CarbonIntensity_s'],
                 "carbonIntensity_C": prompt['CarbonIntensity_c'],
-                "status": prompt['PartitionKey'],
+                "status": prompt['Status'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule'],
-                "timestamp": prompt['TS'],
+                "timestamp": datetime.fromisoformat(prompt['CreatedAt']).strftime("%b %d %H:%M"),
+                "completedAt": datetime.fromisoformat(prompt['CompletedAt']).strftime("%b %d %H:%M") if prompt.get('CompletedAt') else "",
+                "response": prompt['Response']
             })
         
         return func.HttpResponse(
