@@ -78,22 +78,14 @@ async function fetchPrompts() {
 
         return `<li class="list-group-item">
           <strong>${item.timestamp}</strong><br>
-          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
-          <br>Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
-          <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
-          <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
-          <br> Carbon (execution time) : ${ci_c} 
-          <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
-          <hr class="my-1">
-          <p>
-            <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseble" role="button" aria-expanded="false" aria-controls="collapseble">
-              Response:
-            </a>
-          </p>
-          <div class="collapse" id="collapseble">
-            <div class="card card-body">
-              ${item.prompt} 
-            </div></small>
+            <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
+            <br>Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
+            <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
+            <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
+            <br> Carbon (execution time) : ${ci_c} 
+            <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
+            <hr class="my-1"><strong>Response:</strong><br> ${item.response} 
+          </small>
         </li>`;
       }).join('');
         
