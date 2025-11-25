@@ -74,11 +74,27 @@ async function fetchPrompts() {
     {
       const html = data.map(item => {
         const badgeClass = item.status === "pending" ? "bg-warning text-dark" : "bg-success";
-        const ci_c = item.carbonIntensity_C === 0 ? "pending" : item.carbonIntensity_C;
+        const ci_c = item.carbonIntensity_C === 0 ? "" : item.carbonIntensity_C;
 
         return `<li class="list-group-item">
           <strong>${item.timestamp}</strong><br>
-          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> <br>Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> <br> Carbon (schedule time) : ${item.carbonIntensity_S} <br> Carbon (execution time) : ${ci_c} <hr class="my-1"> ${item.prompt}</small>
+          <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
+          <br>Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
+          <br>Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
+          <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
+          <br> Carbon (execution time) : ${ci_c} 
+          <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
+          <hr class="my-1"><a class="btn btn-light" data-bs-toggle="collapse" href="#collapseble" role="button" aria-expanded="false" aria-controls="collapseble">
+    Response:
+  </a>
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseble" aria-expanded="false" aria-controls="collapseble">
+    Button with data-bs-target
+  </button>
+</p>
+<div class="collapse" id="collapseble">
+  <div class="card card-body">
+    ${item.prompt} 
+  </div></small>
         </li>`;
       }).join('');
         
