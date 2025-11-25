@@ -84,17 +84,16 @@ async function fetchPrompts() {
           <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
           <br> Carbon (execution time) : ${ci_c} 
           <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
-          <hr class="my-1"><a class="btn btn-light" data-bs-toggle="collapse" href="#collapseble" role="button" aria-expanded="false" aria-controls="collapseble">
-    Response:
-  </a>
-  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseble" aria-expanded="false" aria-controls="collapseble">
-    Button with data-bs-target
-  </button>
-</p>
-<div class="collapse" id="collapseble">
-  <div class="card card-body">
-    ${item.prompt} 
-  </div></small>
+          <hr class="my-1">
+          <p>
+            <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseble" role="button" aria-expanded="false" aria-controls="collapseble">
+              Response:
+            </a>
+          </p>
+          <div class="collapse" id="collapseble">
+            <div class="card card-body">
+              ${item.prompt} 
+            </div></small>
         </li>`;
       }).join('');
         
