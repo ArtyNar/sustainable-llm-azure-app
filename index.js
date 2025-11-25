@@ -67,13 +67,15 @@ async function fetchPrompts() {
 
     console.log('Elements in store:', data);
 
-    if (data.length === 0){
+    pending = data.filter(obj => obj.status === "pending");
+
+    if (pending.length === 0){
       document.querySelector('#response3').innerHTML = "<li class=\"list-group-item text-center\">Nothing here yet</li>";
     }
     else
     {
-      const html = data.map(item => {
-        const badgeClass = item.status === "pending" ? "bg-warning text-dark" : "bg-success";
+      const html = pending.map(item => {
+        const badgeClass =  "bg-warning text-dark";
         const ci_c = item.carbonIntensity_C === 0 ? "" : item.carbonIntensity_C;
 
         return `<li class="list-group-item">
@@ -90,10 +92,40 @@ async function fetchPrompts() {
         </li>`;
       }).join('');
         
-    document.querySelector('#response3').innerHTML = html;
+      document.querySelector('#response3').innerHTML = html;
+    }
+
+    completed = data.filter(obj => obj.status === "completed");
+
+    if (completed.length === 0){
+      document.querySelector('#response4').innerHTML = "<li class=\"list-group-item text-center\">Nothing here yet</li>";
+    }
+    else
+    {
+      const html = completed.map(item => {
+        const badgeClass = "bg-success";
+        const ci_c = item.carbonIntensity_C === 0 ? "" : item.carbonIntensity_C;
+
+        return `<li class="list-group-item">
+          <strong>${item.timestamp}</strong><br>
+            <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
+            <br> Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
+            <br> Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
+            <br> Completed on: ${item.completedAt} 
+            <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
+            <br> Carbon (execution time) : ${ci_c} 
+            <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
+            <hr class="my-1"><strong>Response:</strong><br> ${item.response} 
+          </small>
+        </li>`;
+      }).join('');
+        
+    document.querySelector('#response4').innerHTML = html;
     }
   } catch (err) {
     document.querySelector('#response3').textContent = 'Error: ' + err.message;
+    document.querySelector('#response4').textContent = 'Error: ' + err.message;
+
   }
 }
 
