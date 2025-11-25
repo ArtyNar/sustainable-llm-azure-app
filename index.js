@@ -85,9 +85,7 @@ async function fetchPrompts() {
             <br> Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
             <br> Completed on: ${item.completedAt} 
             <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
-            <br> Carbon (execution time) : ${ci_c} 
             <hr class="my-1"><strong>Prompt:</strong><br> ${item.prompt} 
-            <hr class="my-1"><strong>Response:</strong><br> ${item.response} 
           </small>
         </li>`;
       }).join('');
