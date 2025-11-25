@@ -1,4 +1,5 @@
 import requests
+from openai import AzureOpenAI
 
 def get_cur_CI(EM_KEY):
     url = "https://api.electricitymaps.com/v3/carbon-intensity/latest?dataCenterRegion=eastus2&dataCenterProvider=azure&disableEstimations=true&emissionFactorType=direct"

@@ -77,14 +77,14 @@ def sendLLM(req: func.HttpRequest) -> func.HttpResponse:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. Also, you only have 100 output tokens allowed, so make it short.",
+                    "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. I use Bootstrap 5, so feel free to use that formatting to prettify.",
                 },
                 {
                     "role": "user",
                     "content": prompt_text,
                 }
             ],
-            max_tokens=100,
+            max_tokens=1000,
             temperature=1.0,
             top_p=1.0,
             model=deployment
@@ -210,7 +210,8 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "CarbonIntensity_s": cur_CI,
         "CarbonIntensity_c": 0,
         "CompletedAt": "",
-        "Response": ""
+        "Response": "",
+        "OutTokens": 0
     }
 
 
@@ -245,7 +246,8 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "schedule": prompt['Schedule'],
                 "timestamp": datetime.fromisoformat(prompt['CreatedAt']).strftime("%b %d %H:%M"),
                 "completedAt": datetime.fromisoformat(prompt['CompletedAt']).strftime("%b %d %H:%M") if prompt.get('CompletedAt') else "",
-                "response": prompt['Response']
+                "response": prompt['Response'],
+                "outTokens": prompt['OutTokens']
             })
         
         return func.HttpResponse(
