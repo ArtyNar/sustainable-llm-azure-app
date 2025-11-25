@@ -120,7 +120,7 @@ async function fetchPrompts() {
             <div class="accordion" id="${accordionId}">
               <div class="accordion-item">
                 <h2 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                  <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
                     See Response
                   </button>
                 </h2>
@@ -131,8 +131,6 @@ async function fetchPrompts() {
                 </div>
               </div>
             </div>
-
-            <br><strong>Response:</strong><br>
           </small>
         </li>`;
       }).join('');
