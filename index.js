@@ -100,9 +100,11 @@ async function fetchPrompts() {
     }
     else
     {
-      const html = completed.map(item => {
+      const html = completed.map((item, index) => {
         const badgeClass = "bg-success";
         const ci_c = item.carbonIntensity_C === 0 ? "" : item.carbonIntensity_C;
+        const accordionId = `accordionResponse${index}`;
+        const collapseId = `collapseOne${index}`;
 
         return `<li class="list-group-item">
           <strong>${item.timestamp}</strong><br>
@@ -114,7 +116,23 @@ async function fetchPrompts() {
             <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
             <br> Carbon (execution time) : ${ci_c} 
             <br><strong>Prompt:</strong><br> ${item.prompt} 
-            <br><strong>Response:</strong><br> ${item.response} 
+
+            <div class="accordion" id="${accordionId}">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="true" aria-controls="${collapseId}">
+                    See Response
+                  </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse show" data-bs-parent="#${accordionId}">
+                  <div class="accordion-body">
+                     ${item.response} 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br><strong>Response:</strong><br>
           </small>
         </li>`;
       }).join('');
