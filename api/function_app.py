@@ -77,7 +77,7 @@ def sendLLM(req: func.HttpRequest) -> func.HttpResponse:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant. The response will be pasted into an HTML div, so make sure you provide HTML formatted prompts. I use Bootstrap 5, so feel free to use that formatting to prettify.",
+                    "content": "You are a helpful assistant. The response will be embedded into an HTML div, so make sure you provide HTML formatted prompts. Bootstrap 5 is used, so feel free to use that formatting to prettify. Do not mention anything about formatting.",
                 },
                 {
                     "role": "user",
