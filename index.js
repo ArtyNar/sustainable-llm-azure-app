@@ -102,7 +102,6 @@ async function fetchPrompts() {
     {
       const html = completed.map((item, index) => {
         const badgeClass = "bg-success";
-        const ci_c = item.carbonIntensity_C === 0 ? "" : item.carbonIntensity_C;
         const accordionId = `accordionResponse${index}`;
         const collapseId = `collapseOne${index}`;
 
@@ -114,10 +113,10 @@ async function fetchPrompts() {
             <br> Completed on: ${item.completedAt} 
             <br> Output tokens : ${item.outTokens} 
             <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
-            <br> Carbon (execution time) : ${ci_c} 
+            <br> Carbon (execution time) : ${item.carbonIntensity_C} 
             <br><strong>Prompt:</strong><br> ${item.prompt} 
 
-            <div class="accordion" id="${accordionId}">
+            <div class="accordion mt-2 mb-2" id="${accordionId}">
               <div class="accordion-item">
                 <h2 class="accordion-header">
                   <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
