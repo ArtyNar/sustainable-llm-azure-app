@@ -204,7 +204,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "Status": "pending",
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "CreatedAt":  datetime.now().isoformat(),
+        "CreatedAt":  datetime.now(ZoneInfo("America/Denver")).isoformat(),
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
