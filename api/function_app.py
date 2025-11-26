@@ -204,7 +204,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "Status": "pending",
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "CreatedAt":  datetime.now(ZoneInfo("America/Denver")).isoformat(),
+        "CreatedAt":  datetime.now().isoformat(),
         "Model": model,
         "Schedule": schedule,
         "CarbonIntensity_s": cur_CI,
@@ -244,8 +244,8 @@ def get_prompts(req: func.HttpRequest, prompts) -> func.HttpResponse:
                 "status": prompt['Status'],
                 "model": prompt['Model'],
                 "schedule": prompt['Schedule'],
-                "timestamp": datetime.fromisoformat(prompt['CreatedAt']).strftime("%b %d %H:%M"),
-                "completedAt": datetime.fromisoformat(prompt['CompletedAt']).strftime("%b %d %H:%M") if prompt.get('CompletedAt') else "",
+                "timestamp": datetime.fromisoformat(prompt['CreatedAt']).astimezone(ZoneInfo("America/Denver")).strftime("%b %d %H:%M"),
+                "completedAt": datetime.fromisoformat(prompt['CompletedAt']).astimezone(ZoneInfo("America/Denver")).strftime("%b %d %H:%M") if prompt.get('CompletedAt') else "",
                 "response": prompt['Response'],
                 "outTokens": prompt['OutTokens']
             })
