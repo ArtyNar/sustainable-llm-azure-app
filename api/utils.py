@@ -1,5 +1,6 @@
 import requests
 from openai import AzureOpenAI
+from datetime import datetime, timezone, timedelta
 
 def get_cur_CI(EM_KEY):
     url = "https://api.electricitymaps.com/v3/carbon-intensity/latest?dataCenterRegion=eastus2&dataCenterProvider=azure&disableEstimations=true&emissionFactorType=direct"
@@ -12,3 +13,15 @@ def get_cur_CI(EM_KEY):
     timestamp = response.json()["datetime"]
 
     return cur_CI, cur_zone, timestamp
+
+def get_cuttoff(schedule):
+    match schedule:
+        case "6 hr":
+            return datetime.now(timezone.utc) + timedelta(hours=6)
+
+        case "12 hr":
+            return datetime.now(timezone.utc) + timedelta(hours=12)
+        case "24 hr":
+            return datetime.now(timezone.utc) + timedelta(hours=24)
+        case "48 hr":
+            return datetime.now(timezone.utc) + timedelta(hours=48)

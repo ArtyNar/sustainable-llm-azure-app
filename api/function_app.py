@@ -7,7 +7,7 @@ import requests
 import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from utils import get_cur_CI
+from utils import get_cur_CI, get_cuttoff
 
 app = func.FunctionApp()
 
@@ -197,6 +197,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
             mimetype="application/json"
         )
 
+    expirationDate = get_cuttoff(schedule) 
 
     # Create table row 
     data = {
@@ -207,6 +208,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "CreatedAt":  datetime.now().isoformat(),
         "Model": model,
         "Schedule": schedule,
+        "expirationDate": expirationDate,
         "CarbonIntensity_s": cur_CI,
         "CarbonIntensity_c": 0,
         "CompletedAt": "",
