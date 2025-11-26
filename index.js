@@ -83,7 +83,6 @@ async function fetchPrompts() {
             <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
             <br> Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
             <br> Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
-            <br> Completed on: ${item.completedAt} 
             <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
             <br><strong>Prompt:</strong><br> ${item.prompt} 
           </small>
