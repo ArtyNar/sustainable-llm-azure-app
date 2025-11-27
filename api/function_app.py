@@ -196,16 +196,8 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
             status_code=500,
             mimetype="application/json"
         )
-    # try:
-    #     expirationDate = get_cuttoff(schedule) 
-    # except requests.exceptions.RequestException as e:
-    #     logging.error(f"Error getting cutoff date: {str(e)}")
 
-    #     return func.HttpResponse(
-    #         body=json.dumps({"error": str(e), "status": "error"}),
-    #         status_code=500,
-    #         mimetype="application/json"
-    #     )
+    expirationDate = get_cuttoff(schedule) 
     
     # Create table row 
     data = {
@@ -216,7 +208,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "CreatedAt":  datetime.now().isoformat(),
         "Model": model,
         "Schedule": schedule,
-        #"expirationDate": expirationDate,
+        "expirationDate": expirationDate,
         "CarbonIntensity_s": cur_CI,
         "CarbonIntensity_c": 0,
         "CompletedAt": "",

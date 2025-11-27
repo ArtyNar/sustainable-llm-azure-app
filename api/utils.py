@@ -17,11 +17,10 @@ def get_cur_CI(EM_KEY):
 def get_cuttoff(schedule):
     match schedule:
         case "6 hr":
-            return datetime.now(timezone.utc) + timedelta(hours=6)
-
+            return (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat()
         case "12 hr":
-            return datetime.now(timezone.utc) + timedelta(hours=12)
+            return (datetime.now(timezone.utc) + timedelta(hours=12)).isoformat()
         case "24 hr":
-            return datetime.now(timezone.utc) + timedelta(hours=24)
+            return (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat()
         case "48 hr":
-            return datetime.now(timezone.utc) + timedelta(hours=48)
+            return (datetime.now(timezone.utc) + timedelta(hours=48)).isoformat()
