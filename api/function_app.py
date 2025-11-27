@@ -196,9 +196,17 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
             status_code=500,
             mimetype="application/json"
         )
+    try:
+        expirationDate = get_cuttoff(schedule) 
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error getting cutoff date: {str(e)}")
 
-    expirationDate = get_cuttoff(schedule) 
-
+        return func.HttpResponse(
+            body=json.dumps({"error": str(e), "status": "error"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+    
     # Create table row 
     data = {
         "PartitionKey": "prompts", 
