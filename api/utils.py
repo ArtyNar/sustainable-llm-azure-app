@@ -15,12 +15,13 @@ def get_cur_CI(EM_KEY):
     return cur_CI, cur_zone, timestamp
 
 def get_cuttoff(schedule):
+    now = datetime.now()
     match schedule:
         case "6 hr":
-            return (datetime.now() + timedelta(hours=6)).isoformat()
+            return (now + timedelta(hours=6)).isoformat()
         case "12 hr":
-            return (datetime.now() + timedelta(hours=12)).isoformat()
+            return (now + timedelta(hours=12)).isoformat()
         case "24 hr":
-            return (datetime.now() + timedelta(hours=24)).isoformat()
+            return (now + timedelta(hours=24)).isoformat()
         case "48 hr":
-            return (datetime.now() + timedelta(hours=48)).isoformat()
+            return (now + timedelta(hours=48)).isoformat()
