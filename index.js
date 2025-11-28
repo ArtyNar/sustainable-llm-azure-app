@@ -113,7 +113,6 @@ async function fetchPrompts() {
             <br> Output tokens : ${item.outTokens} 
             <br> Carbon Intensity (schedule time) : ${item.carbonIntensity_S} 
             <br> Carbon Intensity (execution time) : ${item.carbonIntensity_C} 
-            <br> Improvement : ${1 - (item.carbonIntensity_C / item.carbonIntensity_S) * 100}%
             <br><strong>Prompt:</strong><br> ${item.prompt} 
 
             <div class="accordion mt-2 mb-2" id="${accordionId}">
