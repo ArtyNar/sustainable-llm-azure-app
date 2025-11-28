@@ -15,7 +15,7 @@ def get_cur_CI(EM_KEY):
     return cur_CI, cur_zone, timestamp
 
 def get_cuttoff(schedule):
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     match schedule:
         case "6 hr":
             return (now + timedelta(hours=6)).isoformat()

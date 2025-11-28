@@ -205,7 +205,7 @@ def table_out_binding(req: func.HttpRequest, message: func.Out[str]):
         "Status": "pending",
         "RowKey": str(uuid.uuid4()), # Generates a key 
         "Prompt": prompt_text,      
-        "CreatedAt":  datetime.now().isoformat(),
+        "CreatedAt":  datetime.now(timezone.utc).isoformat(),
         "Model": model,
         "Schedule": schedule,
         "expirationDate": expirationDate,
