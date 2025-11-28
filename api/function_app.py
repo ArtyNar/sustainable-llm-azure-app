@@ -5,7 +5,7 @@ import json
 import uuid
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from utils import get_cur_CI, get_cuttoff
 
