@@ -83,7 +83,7 @@ async function fetchPrompts() {
             <small>Status: <span class="badge badge-pill ${badgeClass}">${item.status}</span> 
             <br> Model: <span class="badge badge-pill bg-secondary text-light">${item.model}</span> 
             <br> Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
-            <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
+            <br> Carbon Intensity (schedule time) : ${item.carbonIntensity_S} 
             <br><strong>Prompt:</strong><br> ${item.prompt} 
           </small>
         </li>`;
@@ -111,8 +111,9 @@ async function fetchPrompts() {
             <br> Scheduled for: <span class="badge badge-pill bg-light text-dark">${item.schedule}</span> 
             <br> Completed on: ${item.completedAt} 
             <br> Output tokens : ${item.outTokens} 
-            <br> Carbon (schedule time) : ${item.carbonIntensity_S} 
-            <br> Carbon (execution time) : ${item.carbonIntensity_C} 
+            <br> Carbon Intensity (schedule time) : ${item.carbonIntensity_S} 
+            <br> Carbon Intensity (execution time) : ${item.carbonIntensity_C} 
+            <br> Improvement : ${1 - (item.carbonIntensity_C / item.carbonIntensity_S) * 100}%
             <br><strong>Prompt:</strong><br> ${item.prompt} 
 
             <div class="accordion mt-2 mb-2" id="${accordionId}">
